@@ -5,10 +5,11 @@
 
 """
 import time
+from locale import windows_locale
 
 from requests.hooks import HOOKS
 from selenium import webdriver
-from selenium.webdriver import Keys
+from selenium.webdriver import Keys, ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
@@ -21,104 +22,104 @@ driver = webdriver.Firefox()
 driver.maximize_window()
 
 driver.get("https://testautomationpractice.blogspot.com/")
-# driver.find_element(By.XPATH, "//input[@id='email']/preceding::input").send_keys("Sadikshya")
-# driver.find_element(By.XPATH, "//input[@id='name']/following::input[1]").send_keys("acharya.sadikshya33@gmail.com")
-# driver.find_element(By.XPATH, "//input[@id='email']/following::input[1]").send_keys("9876543210")
-# driver.find_element(By.XPATH, "//textarea[@id='textarea']").send_keys("Lalitpur")
-# driver.find_element(By.XPATH, "//textarea[@id='textarea']/following::input[2]").click()
+driver.find_element(By.XPATH, "//input[@id='email']/preceding::input").send_keys("Sadikshya")
+driver.find_element(By.XPATH, "//input[@id='name']/following::input[1]").send_keys("acharya.sadikshya33@gmail.com")
+driver.find_element(By.XPATH, "//input[@id='email']/following::input[1]").send_keys("9876543210")
+driver.find_element(By.XPATH, "//textarea[@id='textarea']").send_keys("Lalitpur")
+driver.find_element(By.XPATH, "//textarea[@id='textarea']/following::input[2]").click()
+
+body = driver.find_element("tag name", "body")
+body.send_keys(Keys.PAGE_DOWN)
+
+# Locator of Male Radio Button
+# //textarea[@id='textarea']/following::input[1]
+
+# Checking all the checkboxes at once
+# checkboxes = driver.find_elements(By.XPATH, "//input[@type='checkbox']")
 #
-# body = driver.find_element("tag name", "body")
-# # body.send_keys(Keys.PAGE_DOWN)
+# # Using Loop
+# for checkbox in checkboxes:
+#     if not checkbox.is_selected():
+#         checkbox.click()
+
+
+checkbox = driver.find_element(By.XPATH, "//div[@class='form-check form-check-inline' and input[@id='friday']]").click()
+
+# body = driver.find_element("tag name","body")
+# body.send_keys(Keys.PAGE_DOWN)
 #
-# # Locator of Male Radio Button
-# # //textarea[@id='textarea']/following::input[1]
+# Scroll down multiple times
+for _ in range(1):  # Change 3 to however many times you want to scroll
+    body.send_keys(Keys.PAGE_DOWN)
+    time.sleep(1)  # Wait a bit to let content load
+
+#  Creating a select object
+dropdown_element = driver.find_element(By.XPATH, "//select[@id='country']")
+dropdown_element.click()
+select = Select(dropdown_element)
+
+# 1. Select by visible text
+select.select_by_visible_text("Canada")
+
+# Select by value attribute
+# select.select_by_value("canada")
+
+# Select by index ( 0 based)
+# select.select_by_index(1)
+
+# body = driver.find_element(By.TAG_NAME, "body")
 #
-# # Checking all the checkboxes at once
-# # checkboxes = driver.find_elements(By.XPATH, "//input[@type='checkbox']")
-# #
-# # # Using Loop
-# # for checkbox in checkboxes:
-# #     if not checkbox.is_selected():
-# #         checkbox.click()
-#
-#
-# checkbox = driver.find_element(By.XPATH, "//div[@class='form-check form-check-inline' and input[@id='friday']]").click()
-#
-# # body = driver.find_element("tag name","body")
-# # body.send_keys(Keys.PAGE_DOWN)
-#
-# # Scroll down multiple times
-# for _ in range(1):  # Change 3 to however many times you want to scroll
+# for _ in range(1):
 #     body.send_keys(Keys.PAGE_DOWN)
-#     time.sleep(1)  # Wait a bit to let content load
-#
-# #  Creating a select object
-# dropdown_element = driver.find_element(By.XPATH, "//select[@id='country']")
-# dropdown_element.click()
-# select = Select(dropdown_element)
-#
-# # 1. Select by visible text
-# select.select_by_visible_text("Canada")
-#
-# # Select by value attribute
-# # select.select_by_value("canada")
-#
-# # Select by index ( 0 based)
-# # select.select_by_index(1)
-#
-# # body = driver.find_element(By.TAG_NAME, "body")
-# #
-# # for _ in range(1):
-# #     body.send_keys(Keys.PAGE_DOWN)
-# #     time.sleep(1)
-#
-# scroll_bar_color = driver.find_element(By.XPATH, "//select[@id='colors']")
-#
-# select = Select(scroll_bar_color)
-# select.select_by_value("white")
-#
-# # select.select_by_visible_text("Green")
-# # select.select_by_index(6)
-#
-# scroll_bar_sortedList = driver.find_element(By.XPATH, "//select[@id='animals']")
-# select = Select(scroll_bar_sortedList)
-# select.select_by_value("elephant")
-#
-# # Date Picker: 1
-# date_picker1 = driver.find_element(By.XPATH, "//input[@id='txtDate']/preceding::input[1]")
-# date_picker1.click()
-# date_chosen = driver.find_element(By.XPATH, "//a[@data-date='3']")
-# date_chosen.click()
-# time.sleep(1)
-#
-# date_value = date_picker1.get_attribute("value")
-#
-# # #  Assertions to confirm if date has been picked
-# # assert date_value !="", "Date was not picked!!!"
-#
-# expectedDate= "05/03/2025"
-# assert date_value == expectedDate, f"Expected Date {expectedDate}, but got {date_value}"
-#
-#
-# # Date Picker: 2
-# date_picker2 =driver.find_element(By.XPATH,"//input[@id='datepicker']/following::input[1]")
-# date_picker2.click()
-# time.sleep(1)
-# date_picker_month = driver.find_element(By.XPATH, "//select[@data-handler='selectMonth']")
-# date_picker_month.click()
-# select = Select(date_picker_month)
-# time.sleep(1)
-# select.select_by_value("0")
-# select_year = driver.find_element(By.XPATH, "//select[@data-handler='selectYear']")
-# select = Select(select_year)
-# time.sleep(1)
-# select.select_by_value("2018")
-# time.sleep(1)
-# date_picker_day = driver.find_element(By.XPATH, " //a[@data-date='13']")
-# date_picker_day.click()
-#
-# date_value = date_picker2.get_attribute("value")
-# assert date_value != "", "Date was not picked !!!"
+#     time.sleep(1)
+
+scroll_bar_color = driver.find_element(By.XPATH, "//select[@id='colors']")
+
+select = Select(scroll_bar_color)
+select.select_by_value("white")
+
+# select.select_by_visible_text("Green")
+# select.select_by_index(6)
+
+scroll_bar_sortedList = driver.find_element(By.XPATH, "//select[@id='animals']")
+select = Select(scroll_bar_sortedList)
+select.select_by_value("elephant")
+
+# Date Picker: 1
+date_picker1 = driver.find_element(By.XPATH, "//input[@id='txtDate']/preceding::input[1]")
+date_picker1.click()
+date_chosen = driver.find_element(By.XPATH, "//a[@data-date='3']")
+date_chosen.click()
+time.sleep(1)
+
+date_value = date_picker1.get_attribute("value")
+
+# #  Assertions to confirm if date has been picked
+# assert date_value !="", "Date was not picked!!!"
+
+expectedDate= "05/03/2025"
+assert date_value == expectedDate, f"Expected Date {expectedDate}, but got {date_value}"
+
+
+# Date Picker: 2
+date_picker2 =driver.find_element(By.XPATH,"//input[@id='datepicker']/following::input[1]")
+date_picker2.click()
+time.sleep(1)
+date_picker_month = driver.find_element(By.XPATH, "//select[@data-handler='selectMonth']")
+date_picker_month.click()
+select = Select(date_picker_month)
+time.sleep(1)
+select.select_by_value("0")
+select_year = driver.find_element(By.XPATH, "//select[@data-handler='selectYear']")
+select = Select(select_year)
+time.sleep(1)
+select.select_by_value("2018")
+time.sleep(1)
+date_picker_day = driver.find_element(By.XPATH, " //a[@data-date='13']")
+date_picker_day.click()
+
+date_value = date_picker2.get_attribute("value")
+assert date_value != "", "Date was not picked !!!"
 
 #  Date Picker: 3 (mm/dd/yyyy)
 
@@ -127,11 +128,9 @@ driver.get("https://testautomationpractice.blogspot.com/")
 # date_picker3.click()
 # time.sleep(5)
 # date_picker3.send_keys("05/02/2025")
-
-
 #
 # date_value = date_picker3.get_attribute("value")
-# # assert date_value != "", "Date was not picked !!!"
+# assert date_value != "", "Date was not picked !!!"
 # assert date_value == "05/02/2025", f"Expected date not picked! Got: {date_value}"
 
 #  Upload File
@@ -154,11 +153,11 @@ driver.get("https://testautomationpractice.blogspot.com/")
 # driver.find_element(By.XPATH, "//button[text()='Upload Single File']").click()
 
 # Pagination Web Table
-#
-# for i in range(2):
-#     body = driver.find_element(By.TAG_NAME, "body")
-#     body.send_keys(Keys.PAGE_DOWN)
-#     time.sleep(1)
+
+for i in range(2):
+    body = driver.find_element(By.TAG_NAME, "body")
+    body.send_keys(Keys.PAGE_DOWN)
+    time.sleep(1)
 
 for i in range(3):
     driver.execute_script("window.scrollBy(0, window.innerHeight);")
@@ -198,94 +197,221 @@ checkbox4Page3 = driver.find_element(By.XPATH, "//table//tr[2]//input[@type='che
 checkbox4Page3.click()
 checkbox4Page3.is_selected(), "Checkbox was not selected!"
 
-#  Form Section 1
+ # Form Section 1
 
-# section1form = driver.find_element(By.XPATH, "//div[@id='section1']/descendant::input")
-# section1form.send_keys("Nepal is a small, landlocked country located in South Asia, nestled between China and India. "
-#                        "Known for its stunning natural beauty, it is home to eight of the world’s ten highest mountains, including Mount Everest, the tallest peak on Earth. "
-#                        "Nepal is rich in cultural heritage, with diverse ethnic groups, languages, and religions coexisting peacefully. "
-#                        "The capital city, Kathmandu, is famous for its historic temples and vibrant traditions. "
-#                        "Despite being a developing nation, Nepal draws global attention for its breathtaking landscapes and deep-rooted spiritual culture.")
-#
-# # Submit Button
-# submitButton = driver.find_element(By.XPATH, "//div[@id='section1']/descendant::button")
-# submitButton.click()
-# section1form.is_displayed(), "Paragraph is not displayed"
+section1form = driver.find_element(By.XPATH, "//div[@id='section1']/descendant::input")
+section1form.send_keys("Nepal is a small, landlocked country located in South Asia, nestled between China and India. "
+                       "Known for its stunning natural beauty, it is home to eight of the world’s ten highest mountains, including Mount Everest, the tallest peak on Earth. "
+                       "Nepal is rich in cultural heritage, with diverse ethnic groups, languages, and religions coexisting peacefully. "
+                       "The capital city, Kathmandu, is famous for its historic temples and vibrant traditions. "
+                       "Despite being a developing nation, Nepal draws global attention for its breathtaking landscapes and deep-rooted spiritual culture.")
 
-#  Form Section 2
+# Submit Button
+submitButton = driver.find_element(By.XPATH, "//div[@id='section1']/descendant::button")
+submitButton.click()
+section1form.is_displayed(), "Paragraph is not displayed"
 
-# section2form = driver.find_element(By.XPATH, "//div[@id='section1']/following::input[1]")
-# section2form.send_keys("Nepal is a small, landlocked country located in South Asia, nestled between China and India. "
-#                        "Known for its stunning natural beauty, it is home to eight of the world’s ten highest mountains, including Mount Everest, the tallest peak on Earth. "
-#                        "Nepal is rich in cultural heritage, with diverse ethnic groups, languages, and religions coexisting peacefully. "
-#                        "The capital city, Kathmandu, is famous for its historic temples and vibrant traditions. "
-#                        "Despite being a developing nation, Nepal draws global attention for its breathtaking landscapes and deep-rooted spiritual culture.")
-#
-# # Submit Button
-# submitButton = driver.find_element(By.XPATH, "//div[@id='section1']/following::button[1]")
-# submitButton.click()
-# section2form.is_displayed(), "Paragraph is not displayed"
+ # Form Section 2
 
-#  Footer Links
-# old_url = driver.current_url
-#
-# homeLink = driver.find_element(By.XPATH, "//div[@id='PageList1']/descendant::a[1]")
-# homeLink.click()
-#
-# #  Wait for the URL to change
-# WebDriverWait(driver, 10).until(lambda d:d.current_url != old_url)
-# print("Page navigated or refreshed (URL changed).")
+section2form = driver.find_element(By.XPATH, "//div[@id='section1']/following::input[1]")
+section2form.send_keys("Nepal is a small, landlocked country located in South Asia, nestled between China and India. "
+                       "Known for its stunning natural beauty, it is home to eight of the world’s ten highest mountains, including Mount Everest, the tallest peak on Earth. "
+                       "Nepal is rich in cultural heritage, with diverse ethnic groups, languages, and religions coexisting peacefully. "
+                       "The capital city, Kathmandu, is famous for its historic temples and vibrant traditions. "
+                       "Despite being a developing nation, Nepal draws global attention for its breathtaking landscapes and deep-rooted spiritual culture.")
 
-#
-# from selenium.common.exceptions import StaleElementReferenceException
-# from selenium.webdriver.support.ui import WebDriverWait
-#
-# def is_stale(element):
-#     try:
-#         element.is_displayed()
-#         return False
-#     except StaleElementReferenceException:
-#         return True
-#
-# # Store a known element before the click
-# body = driver.find_element(By.TAG_NAME, "body")
-#
-# # Click the Home link
-# homeLink = driver.find_element(By.XPATH, "//div[@id='PageList1']/descendant::a[1]")
-# homeLink.click()
-#
-# # Wait until the DOM element goes stale (which means the page reloaded)
-# WebDriverWait(driver, 10).until(lambda d: is_stale(body))
-#
-# print("Page was refreshed (DOM was reloaded).")
+# Submit Button
+submitButton = driver.find_element(By.XPATH, "//div[@id='section1']/following::button[1]")
+submitButton.click()
+section2form.is_displayed(), "Paragraph is not displayed"
+
+ # Footer Links
+old_url = driver.current_url
+
+homeLink = driver.find_element(By.XPATH, "//div[@id='PageList1']/descendant::a[1]")
+homeLink.click()
+
+#  Wait for the URL to change
+WebDriverWait(driver, 10).until(lambda d:d.current_url != old_url)
+print("Page navigated or refreshed (URL changed).")
+
+
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.support.ui import WebDriverWait
+
+def is_stale(element):
+    try:
+        element.is_displayed()
+        return False
+    except StaleElementReferenceException:
+        return True
+
+# Store a known element before the click
+body = driver.find_element(By.TAG_NAME, "body")
+
+# Click the Home link
+homeLink = driver.find_element(By.XPATH, "//div[@id='PageList1']/descendant::a[1]")
+homeLink.click()
+
+# Wait until the DOM element goes stale (which means the page reloaded)
+WebDriverWait(driver, 10).until(lambda d: is_stale(body))
+
+print("Page was refreshed (DOM was reloaded).")
 
 
 #  Hidden Elements and AJAX
 
-# old_url = driver.current_url
-# heaLink = driver.find_element(By.XPATH, "//div[@id='PageList1']/descendant::a[2]")
-# heaLink.click()
-#
-# time.sleep(2)
-# new_url = driver.current_url
-#
-# assert new_url != old_url, "URL Matches!!!"
+old_url = driver.current_url
+heaLink = driver.find_element(By.XPATH, "//div[@id='PageList1']/descendant::a[2]")
+heaLink.click()
+
+time.sleep(2)
+new_url = driver.current_url
+
+assert new_url != old_url, "URL Matches!!!"
 
 for i in range(2):
   body = driver.find_element("tag name", "body")
   body.send_keys(Keys.PAGE_DOWN)
 
-#  Dynamic Button
-# dynamicButton = driver.find_element(By.XPATH, "//button[starts-with(@name, 'st')]")
-# dynamicButton.click()
+ # Dynamic Button
+dynamicButton = driver.find_element(By.XPATH, "//button[starts-with(@name, 'st')]")
+dynamicButton.click()
 
 button = driver.find_element(By.XPATH, "//button[contains(@name, 'start')]")
+original_class = button.get_attribute("id")
+original_name = button.get_attribute("class")
+
+button.click()
 
 
 # After clicking, class and name changes
 
 WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.XPATH, "//button[contains(@name, 'stop')]")))
-stop_button = driver.find_element(By.XPATH, "//button[contains(@class, 'stop')]")
-stop_button.click()
+updated_button = driver.find_element(By.XPATH, "//button[contains(@class, 'stop')]")
+new_name = button.get_attribute("name")
+new_class = button.get_attribute("class")
+
+# Assertions
+assert original_name != new_name, "Name did not change"
+assert original_class != new_class, "Class did not change"
+
+print("Button transitioned stated: Name and Class all changed as expected")
+
+#  Handling Alerts and Popups
+#  Simple Alert
+
+alert1 = driver.find_element(By.XPATH, "//button[@id='alertBtn']")
+alert1.click()
+
+time.sleep(1)
+
+# Switch to alert
+alert1 = driver.switch_to.alert
+
+print("Alert says: " , alert1.text)
+
+alert1.accept()
+
+#  Alert2
+#  Confirmation Alert
+
+alert2 = driver.find_element(By.XPATH, "//button[@id='confirmBtn']")
+alert2.click()
+
+# Switching to Alert
+alert2 = driver.switch_to.alert
+# alert2.accept()
+
+alert2.dismiss()
+message = driver.find_element(By.XPATH, "//p[@id='demo']")
+message.is_displayed()
+
+body = driver.find_element(By.TAG_NAME, "body")
+body.send_keys(Keys.PAGE_DOWN)
+
+# Alert 3
+# Prompt Alert
+
+alert3 = driver.find_element(By.XPATH, "//button[@id='promptBtn']")
+alert3.click()
+
+# Switching to Alert
+alert = driver.switch_to.alert
+alert.send_keys("Sadikshya!")
+# alert.accept()
+alert.dismiss()
+
+# New Tab
+
+# Storing the number of original tabs
+original_tabs = driver.window_handles
+original_tab_count = len(original_tabs)
+
+newTab_button = driver.find_element(By.XPATH, "//button[text()='New Tab']")
+newTab_button.click()
+
+updated_tabs = driver.window_handles
+updated_tab_count = len(updated_tabs)
+
+# Assertions
+assert updated_tab_count > original_tab_count, "New tab was not opened!"
+print("New tab opened successfully...")
+
+# Switching to a new tab
+driver.switch_to.window(updated_tabs[-1])
+
+# Handling Popup Windows
+
+# Selenium treats both tabs and pop up windows in same way
+
+ # Current window handles
+original_window = driver.window_handles
+original_count = len(original_window)
+
+
+popUp_window = driver.find_element(By.XPATH, "//div[@class='column']")
+popUp_window.click()
+time.sleep(2)
+
+
+new_windows = driver.window_handles
+new_count = len(new_windows)
+#
+# # Assertions
+assert new_count > original_count, "Pop-up window did not open"
+print("New window opened successfully")
+
+body = driver.find_element(By.TAG_NAME, "body")
+body.send_keys(Keys.PAGE_DOWN)
+body = driver.find_element(By.TAG_NAME, "body")
+body.send_keys(Keys.PAGE_DOWN)
+
+# Handling Mouse Hover
+point_me_button = driver.find_element(By.XPATH, "//div[@class='dropdown']")
+driver.execute_script("arguments[0].scrollIntoView(true);", point_me_button)
+
+# Wait until the element is visible
+WebDriverWait(driver, 10).until(EC.visibility_of(point_me_button))
+
+# Using ActionChain Object
+actions = ActionChains(driver)
+actions.move_to_element(point_me_button).perform()
+
+mobiles_button = driver.find_element(By.XPATH, "//a[text()='Mobiles']")
+mobiles_button.click()
+
+# Handling Drag and Drop
+
+drag_locator = driver.find_element(By.XPATH, "//p[text()='Drag me to my target']")
+
+droppable_locator = driver.find_element(By.XPATH, "//div[@id='droppable']")
+
+driver.execute_script("arguments[0].scrollIntoView(true);", drag_locator)
+driver.execute_script("arguments[0].scrollIntoView(true);", droppable_locator)
+
+# Creating action chain object and perform drag and drop
+actions = ActionChains(driver)
+actions.drag_and_drop(drag_locator, droppable_locator).perform()
 
